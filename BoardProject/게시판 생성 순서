@@ -1,0 +1,220 @@
+2 chap
+spring-test, lombok 추가해서 junit 테스트
+
+junit은 was를 따로 안띄우고 해당 파일을 구동해 볼 수 있음.
+웹프로젝트라서 was 안거치고 작은 단위의 테스트를 할 수 있는게 장점
+ex. printer , printPage, PrintTest
+
+3.오라클 다운 및 sql developer 설치
+tablespace(오라클에서는 테이블 스페이스라는 테이블 저장공간을 따로 만들고 테이블을 생성한다)
+
+user 생성 + 테이블 스페이스 할당+ 템프도 작성(1 쿼리)
+
+접속 및 DBA 권한 부여
+
+select dbms_xdb.gethttpport() from dual로 포트확인가능
+exec dbms_xdb.sethttpport 숫자로 변경 가능
+
+sqldeveloper/jdbc/lib에 ojdbc.jar로 jdbc 이클립스 연결
+
+이후 JDBCTest(drivermanager.getConnection)
+
+pom설정은 커넥션 풀(hikari) 추가 및 root jdbc 설정(드라이버이름,url,name,pass)+dataSource
+이후 dataSourceTests
+
+
+
+4. mybatis 연동
+mybatis, mybatis-spring, spring-tx, spring-jdbc
+
+root 설정
+log4jdbc 추가로 인한 jdbc 드라이버/url 수정
+DataSource를 참조하여 MyBatis와 Mysql연동해주는 SessionFactory 설정
+
+dataSourceTest에서
+sessionFactory test
+
+인터페이스 TimeMapper 생성후
+@select("쿼리") 테스트
+select sysdate form dual
+root-context에 namespace mybatis+ 폴더지정
+
+이후 TimeMapperTests
+
+TimeMapper.xml 생성
+https://mybatis.org/mybatis-3/ko/sqlmap-xml.html 참조
+
+
+log4jdbc-log4j2 설정
+pom에 추가 후
+resource 
+log4jdbc.log4j2.properties
+log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+이후 root -  uri, name 설정변경
+log4j.xml에서 레벨 벨류를 warn으로 올리면 info 안보임
+
+------------------------------------------------------------>
+
+5~6. spring 기본구조와 controller
+servlet-context = 요청 관련 객체정의
+root-context = view와 관련되지 않은 객체 service, Repository(DAO), DB 등 비즈니스 로직 관련설정
+web = was 구동시 각종 설정을 정의
+
+servlet-api를 javax.servlet-api 로 변경 
+서버로 켜서 확인
+spring-test, lombok은 이미 있음. 없을 시 추가
+
+sampleController 생성
+servlet-context.xml에 sampleController or controller 스캔(log 안찍히는건 log에 추가해야됨)
+
+--127
+
+파라미터 수집 (X)
+1.dto
+2.RequestParam
+3.ArrayList
+4.String[]
+5.SampleDTOList
+6.TodoDTO
+7.SampleDTO + int
+
+
+
+DTO
+@initBinder 로 날짜파라미터 받기
+redirect
+rttr.addFlashAttribute("","");
+return "redirect:/"
+
+VO or DTO 등 복잡한 데이터가 들어간 객체 타입지정은
++ jackson-databind,
+8.ResponseBody
+9.ResponseEntity (200 json 확인가능)
+
+commons-fileupload 추가
+servlet-context에 multipartResolver 파일업로드 관련 설정 
+10.exUpload
+
+@ControllerAdvice
++ exception component-scan
+157
+web.xml에 exception 관련 설정
+
+sampleController로 
+1.sampleDTO, 2.RequestParam, 3.RequestParam ArrayList, 4.RequestParam String
+5.sampleDTOList 6.TodoDTO 7. sampleDTO + int or @ModelAttribute
+8.responseBody SampleDTO 9.responEntity<String> 10. exUploadPost(ArrayList<MultipartFile>)
+
+7~8.비즈니스 계층 CRUD구현
+
+ 시퀀스 생성 및 테이블 생성 이후 더미 데이터 넣어 놓기
+Entity DB테이블내 존재하는 컬럼만을 속성으로 가지는 클래스 --X
+JPA를 사용하는 경우 사용 mybatis는 굳이?
+
+DTO -- 생성
+DB의 데이터를 서비스나 컨트롤러 등으로 보낼 때 사용하는 객체
+getter/setter만 가지는 순수데이터 객체
+서버-> view로 데이터를 넘길때 DTO-getter/setter로 프로퍼티(데이터)를 표현
+
+vo -- 생성
+DTO와의 차이는 readonly 의 불변의 클래스로 값 오브젝트로써 값만을 위해 쓰임
+
+DAO(mapper) 데이터베이스에 접속하는 트랜잭션 객체 -- 생성
+1) Controller.java - Service.java - Mapper.java - Mapper.xml
+2) Controller.java - Service.java - DAO.java - Mapper.xml 
+mapper 가 아닐시 SqlSession을 사용해야함. (session.selectOne("~~"))
+
+boardMapperTests
+
+9~10. 비즈니스+ 프레젠테이션 CRUD
+
+controller(mock), service, service impl 생성 및 테스트
+
+11. 화면처리
+web.xml에 인코딩설정
+등록페이지, 변경페이지, 리스트페이지, 읽기페이지 생성
+
+12~13. 오라클 데이터베이스 페이징 처리 mybatis와 스프링에서 페이징 처리
+인덱스와 rownum을 이용한 빠른 데이터베이스 읽어오기
+페이징을 위한 Criteria(기준) 클래스 생성
+controller+ service test
+
+14.페이징 화면처리
+pageDTO , 페이징 화면 
+
+15. 검색 처리
+
+16.rest 방식과 ajax이용하는 댓글처리 ex03
+xml<->object
+
+jackson-databind
+jackson-dataformat-xml
+gson
+
+controller,  controllerTests
+
+17.ajax 댓글 처리
+리플 테이블 생성
+시퀀스 생성
+bno로 리플테이블 외래키 추가
+Reply controller
+
+리플이 보이는지 까지.
+
+18.aop ex04
+
+파라미터가 올바르게 들어왔을까?
+이 작업을 하는 사용자가 적절한 권한을 가진 사용자인가?
+이 작업에서 발생할 수 있는 모든 예외는 어떻게 처리해야하는가?
+라는 핵심 로직은 아니지만 코드를 온전하게 만들기 위해서 필요한 고민을 aop가 핵심 비즈니스 로직만을 신경쓰는데 도움을 줌
+
+Target은 순수 비즈니스 로직, target을 감싸고 있는 것을 Proxy 라하고 이는 중간에 필요한 관심사들을 거쳐 Target을 호출하도록 
+자동 혹은 수동으로 작성됨.
+
+19. 트랜잭션 관리
+즉, 한 번 질의가 실행되면 질의가 모두 수행되거나 모두 수행되지 않는 작업수행의 논리적 단위
+aspectjrt
+aspectjweaver
+
+sampleMapper1&2
+sampleTxServiceImpl+service + serviceTests
+
+20. 댓글과 댓글 수에 대한 처리( 게시글 옆 댓글 숫자)
+
+21. 파일 업로드 방식 ex05
+upload 컨트롤러 multupartFile
+uploadAjax.jsp
+
+22. 파일 업로드 상세 처리
+이름 고유화, 섬네일 이미지 생성, 
+
+23. 브라우저에서의 섬네일
+
+24.첨부파일의 다운로드 혹은 원본 보여주기
+
+25. 합치기
+
+26.게시물의 조회와 첨부파일
+JSP에서 첨부파일의 정보를 Ajax를 이용해서 처리하는 방식
+다시 쿼리는 처리해야하는 불편함이 있지만 난이도가 낮고, 화면에서 처리는 javascript 처리가 복잡
+
+27~28.게시물 삭제-수정 첨부파일
+
+29.잘못 업로드된 파일 삭제
+
+-첨부파일만을 등록하고 게시물을 등록하지 않았을 때의 문제
+-게시물을 수정할 때 파일을 삭제했지만 실제로 폴더 있는 경우
+
+ajax로 작업 이후 비정상적으로 브라우저를 종료하거나 페이지를 빠져나가는 문제
+
+quartz
+quartz-jobs
+
+스케쥴 파일체크
+
+30. 스프링 웹 시큐리티
+
+31. 로그인과 로그아웃 처리
+csrf
+
+32.jdbc를 이용한 간편 인증/권한처리
