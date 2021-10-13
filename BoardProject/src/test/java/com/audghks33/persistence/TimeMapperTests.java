@@ -1,4 +1,4 @@
-package org.audghks33.persistence;
+package com.audghks33.persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

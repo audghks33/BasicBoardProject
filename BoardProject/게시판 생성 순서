@@ -23,7 +23,6 @@ pom설정은 커넥션 풀(hikari) 추가 및 root jdbc 설정(드라이버이�
 이후 dataSourceTests
 
 
-
 4. mybatis 연동
 mybatis, mybatis-spring, spring-tx, spring-jdbc
 
@@ -78,8 +77,6 @@ servlet-context.xml에 sampleController or controller 스캔(log 안찍히는건
 6.TodoDTO
 7.SampleDTO + int
 
-
-
 DTO
 @initBinder 로 날짜파라미터 받기
 redirect
@@ -95,40 +92,89 @@ commons-fileupload 추가
 servlet-context에 multipartResolver 파일업로드 관련 설정 
 10.exUpload
 
-@ControllerAdvice
-+ exception component-scan
-157
-web.xml에 exception 관련 설정
-
 sampleController로 
 1.sampleDTO, 2.RequestParam, 3.RequestParam ArrayList, 4.RequestParam String
 5.sampleDTOList 6.TodoDTO 7. sampleDTO + int or @ModelAttribute
 8.responseBody SampleDTO 9.responEntity<String> 10. exUploadPost(ArrayList<MultipartFile>)
 
+@ControllerAdvice
++ exception component-scan
+157
+web.xml에 exception 관련 설정
+custom404.jsp만들어서 /sample을 제외한 페이지로 확인
++CommonExceptionAdvice handler 추가
+
 7~8.비즈니스 계층 CRUD구현
+
+시퀀스,테이블 추가 tbl_board
+더미 추가
 
  시퀀스 생성 및 테이블 생성 이후 더미 데이터 넣어 놓기
 Entity DB테이블내 존재하는 컬럼만을 속성으로 가지는 클래스 --X
 JPA를 사용하는 경우 사용 mybatis는 굳이?
+
+1.vo -- 생성
+DTO와의 차이는 readonly 의 불변의 클래스로 값 오브젝트로써 값만을 위해 쓰임
+제목,넘버,내용,글쓴이,등록날짜,업데이트날짜
+
+2.boardMapper interface
+boardMapperTests
+
+3.mapper.xml
+
++ insertSelectKey, insert 추가
+insertSelectKey는 불필요한 넘버링 입출력을 안하고 다음 넘버링을 가져올 수 있게 하려고 쓰는 것
+jdbc.sqlonly - select seq_board.nextval from dual을 먼저 수행
+TestInsert 추가
+
+4.read
+-delete
+-update
+
+
+-198
+
+9~10. 비즈니스+ 프레젠테이션 CRUD
+
+
+service+impl, BoardServiceTests
+
+
+for-each
+ArrayList<BoardVO> list = (ArrayList<BoardVO>) mapper.getList();
+1.
+for(int i = 0 ; i < list.size() ; i++) {
+	log.info(list.get(i));
+}
+
+2.
+for(BoardVO board2 : list) {
+	log.info(board2);
+}
+
+3.
+.forEach(board -> log.info(board));
+
+210
+
+
+
+
+
+
+
+.DAO(mapper) 데이터베이스에 접속하는 트랜잭션 객체 -- 생성
+1) Controller.java - Service.java - Mapper.java - Mapper.xml
+2) Controller.java - Service.java - DAO.java - Mapper.xml 
+mapper 가 아닐시 SqlSession을 사용해야함. (session.selectOne("~~"))
 
 DTO -- 생성
 DB의 데이터를 서비스나 컨트롤러 등으로 보낼 때 사용하는 객체
 getter/setter만 가지는 순수데이터 객체
 서버-> view로 데이터를 넘길때 DTO-getter/setter로 프로퍼티(데이터)를 표현
 
-vo -- 생성
-DTO와의 차이는 readonly 의 불변의 클래스로 값 오브젝트로써 값만을 위해 쓰임
 
-DAO(mapper) 데이터베이스에 접속하는 트랜잭션 객체 -- 생성
-1) Controller.java - Service.java - Mapper.java - Mapper.xml
-2) Controller.java - Service.java - DAO.java - Mapper.xml 
-mapper 가 아닐시 SqlSession을 사용해야함. (session.selectOne("~~"))
 
-boardMapperTests
-
-9~10. 비즈니스+ 프레젠테이션 CRUD
-
-controller(mock), service, service impl 생성 및 테스트
 
 11. 화면처리
 web.xml에 인코딩설정
