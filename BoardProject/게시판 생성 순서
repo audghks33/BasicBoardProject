@@ -121,6 +121,15 @@ DTO와의 차이는 readonly 의 불변의 클래스로 값 오브젝트로써 �
 boardMapperTests
 
 3.mapper.xml
+.DAO(mapper) 데이터베이스에 접속하는 트랜잭션 객체 -- 생성
+1) Controller.java - Service.java - Mapper.java - Mapper.xml
+2) Controller.java - Service.java - DAO.java - Mapper.xml 
+mapper 가 아닐시 SqlSession을 사용해야함. (session.selectOne("~~"))
+
+DTO -- 생성
+DB의 데이터를 서비스나 컨트롤러 등으로 보낼 때 사용하는 객체
+getter/setter만 가지는 순수데이터 객체
+서버-> view로 데이터를 넘길때 DTO-getter/setter로 프로퍼티(데이터)를 표현
 
 + insertSelectKey, insert 추가
 insertSelectKey는 불필요한 넘버링 입출력을 안하고 다음 넘버링을 가져올 수 있게 하려고 쓰는 것
@@ -138,7 +147,6 @@ TestInsert 추가
 
 
 service+impl, BoardServiceTests
-
 
 for-each
 ArrayList<BoardVO> list = (ArrayList<BoardVO>) mapper.getList();
@@ -158,26 +166,17 @@ for(BoardVO board2 : list) {
 210
 
 
+10. 프레젠테이션 CRUD
 
-
-
-
-
-.DAO(mapper) 데이터베이스에 접속하는 트랜잭션 객체 -- 생성
-1) Controller.java - Service.java - Mapper.java - Mapper.xml
-2) Controller.java - Service.java - DAO.java - Mapper.xml 
-mapper 가 아닐시 SqlSession을 사용해야함. (session.selectOne("~~"))
-
-DTO -- 생성
-DB의 데이터를 서비스나 컨트롤러 등으로 보낼 때 사용하는 객체
-getter/setter만 가지는 순수데이터 객체
-서버-> view로 데이터를 넘길때 DTO-getter/setter로 프로퍼티(데이터)를 표현
-
-
-
+BoardController -> BoardControllerTests(mock)
+		Before setup
+		list, register, get, modify, remove
 
 11. 화면처리
-web.xml에 인코딩설정
+
+간단한 화면.
+
+web.xml에 인코딩 필터 설정
 등록페이지, 변경페이지, 리스트페이지, 읽기페이지 생성
 
 12~13. 오라클 데이터베이스 페이징 처리 mybatis와 스프링에서 페이징 처리
