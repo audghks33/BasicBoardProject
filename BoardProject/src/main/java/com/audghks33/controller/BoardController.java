@@ -29,6 +29,11 @@ public class BoardController {
 		
 		model.addAttribute("list", service.getList());
 	}
+	// 해당 페이지를 열어야하므로 getMapping 추가
+	@GetMapping("/register")
+	public void register() {
+		
+	}
 	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {

@@ -141,8 +141,6 @@ TestInsert 추가
 -update
 
 
--198
-
 9~10. 비즈니스+ 프레젠테이션 CRUD
 
 
@@ -163,9 +161,6 @@ for(BoardVO board2 : list) {
 3.
 .forEach(board -> log.info(board));
 
-210
-
-
 10. 프레젠테이션 CRUD
 
 BoardController -> BoardControllerTests(mock)
@@ -175,9 +170,20 @@ BoardController -> BoardControllerTests(mock)
 11. 화면처리
 
 간단한 화면.
+header, footer.
+JSTL (JSP Standard Tag Library)
 
-web.xml에 인코딩 필터 설정
-등록페이지, 변경페이지, 리스트페이지, 읽기페이지 생성
+등록페이지, 리스트페이지, 
+251
+
+
+
+
+
+
+
+
+변경페이지, 읽기페이지 생성
 
 12~13. 오라클 데이터베이스 페이징 처리 mybatis와 스프링에서 페이징 처리
 인덱스와 rownum을 이용한 빠른 데이터베이스 읽어오기
