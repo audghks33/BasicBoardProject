@@ -173,19 +173,34 @@ BoardController -> BoardControllerTests(mock)
 header, footer.
 JSTL (JSP Standard Tag Library)
 
-등록페이지, 리스트페이지, 
-251
+등록페이지, 리스트페이지, 변경페이지, 읽기페이지 생성
+
+뒤로가기 문제 해결
+(입력 양식 그대로존재)
+
+e.preventDefault(); 로 기존 버튼 기능 없애주고
+(form 안에 있는 버튼의 경우)버튼 별 data-oper사용
+
+
+12~13. 
+SQL F10. 실행계획(안에서 밖으로, 위에서 아래로)
+insert into tbl_board(bno, title, content, writer)
+(select seq_board.nextval, title, content, writer from tbl_board);
+
+select /*+ INDEX_DESC(tbl_board pk_board) */
+	*
+from
+tbl_board
+where bno>0;
+
+292 
 
 
 
 
 
-
-
-
-변경페이지, 읽기페이지 생성
-
-12~13. 오라클 데이터베이스 페이징 처리 mybatis와 스프링에서 페이징 처리
+13.
+오라클 데이터베이스 페이징 처리 mybatis와 스프링에서 페이징 처리
 인덱스와 rownum을 이용한 빠른 데이터베이스 읽어오기
 페이징을 위한 Criteria(기준) 클래스 생성
 controller+ service test

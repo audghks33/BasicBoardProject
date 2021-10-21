@@ -55,6 +55,14 @@ public class BoardController {
 		model.addAttribute("board", service.get(bno));
 	}
 	
+	@GetMapping("/modify")
+	public void modify(@RequestParam("bno") Long bno, Model model) {
+		
+		log.info("/get or modify");
+		
+		model.addAttribute("board", service.get(bno));
+	}
+	
 	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
 		log.info("컨트롤 변경사항 : " +board);

@@ -42,7 +42,7 @@
 		<c:forEach items="${list}" var="board">
 			<tr>
 				<td><c:out value="${board.bno}" /></td>
-				<td><c:out value="${board.title}" /></td>
+				<td><a href='/board/get?bno=<c:out value="${board.bno}" /> '><c:out value="${board.title}" /></a></td>
 				<td><c:out value="${board.writer}" /></td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd" 
 				value="${board.regdate}"/></td>
@@ -71,13 +71,18 @@
 		//모달창
 		checkModal(register);
 		
+		history.replaceState({},null,null);
+		//등록-조회-뒤로가기 시 팝업 안뜨게
+		
 		function checkModal(register){
 		
+			if(register === '' || history.state){
+				return;
+			}
+			
 			if(register != ""){
 				$(".modal-body").html(register +"번 처리가 완료 되었습니다.");
 				$("#modal").css("display","block");
-			}else{
-				return;
 			}
 		}
 		
@@ -85,10 +90,9 @@
 			$("#modal").css("display","none");
 		});
 		
-		$('btnRegist').click(function(){
+		$('#btnRegist').click(function(){
 			self.location="/board/register";	
 		});
-		
 		
 	});
 </script>
