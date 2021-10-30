@@ -2,9 +2,8 @@ package com.audghks33.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Select;
-
 import com.audghks33.domain.BoardVO;
+import com.audghks33.domain.Criteria;
 
 public interface BoardMapper {
 
@@ -20,5 +19,7 @@ public interface BoardMapper {
 	public int delete(Long bno);
 	
 	public int update(BoardVO board);
+	
+	public List<BoardVO> getListWithPaging(Criteria cri);
 	
 }

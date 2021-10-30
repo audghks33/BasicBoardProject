@@ -26,6 +26,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div>
 	<h1>ListPage</h1>
 	
 	<table border="1">
@@ -42,7 +43,8 @@
 		<c:forEach items="${list}" var="board">
 			<tr>
 				<td><c:out value="${board.bno}" /></td>
-				<td><a href='/board/get?bno=<c:out value="${board.bno}" /> '><c:out value="${board.title}" /></a></td>
+				<td><a class='move' href='<c:out value="${board.bno}" /> '>
+				<c:out value="${board.title}" /></a></td>
 				<td><c:out value="${board.writer}" /></td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd" 
 				value="${board.regdate}"/></td>
@@ -52,6 +54,36 @@
 		</c:forEach>
 	</table>
 	<button id="btnRegist">글쓰기</button>
+</div>
+<div>
+
+<table>
+	<tr>
+		<td>
+			<c:if test="${pageMaker.prev}">
+				<a href="${pageMaker.startPage -1}" class="Previous_button">Previous</a>
+			</c:if>
+		</td>
+	
+	
+		<c:forEach var="num" begin = "${pageMaker.startPage}" end="${pageMaker.endPage}" >
+			<td class="paginate_button ${pageMaker.cri.pageNum == num ? "active":"" } " ><a href="${num}" class="paginate_button">${num}</a></td>
+		</c:forEach>
+
+		<td>
+			<c:if test="${pageMaker.next}">
+				<a href="${pageMaker.endPage +1}" class="Next_button">Next</a>
+			</c:if>
+		</td>
+	</tr>
+</table>
+	<form id= 'actionForm' action="/board/list" method ='get'>
+		<input type="hidden" name='pageNum' value="${pageMaker.cri.pageNum}">
+		<input type="hidden" name='amount' value="${pageMaker.cri.amount}">
+	</form>
+</div>
+
+
 
 <!-- 모달창 -->
 <div aria-hidden="true" id="modal" >
@@ -92,6 +124,25 @@
 		
 		$('#btnRegist').click(function(){
 			self.location="/board/register";	
+		});
+		
+		var actionForm = $("#actionForm");
+		
+		$(".paginate_button a").on("click", function(e){
+			
+			e.preventDefault();
+			
+			console.log("click");
+			
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
+		
+		$(".move").on("click", function(e){		
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action", "/board/get");
+			actionForm.submit();
 		});
 		
 	});

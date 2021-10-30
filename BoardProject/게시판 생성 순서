@@ -193,20 +193,29 @@ from
 tbl_board
 where bno>0;
 
-292 
-
-
-
-
-
 13.
 오라클 데이터베이스 페이징 처리 mybatis와 스프링에서 페이징 처리
+
 인덱스와 rownum을 이용한 빠른 데이터베이스 읽어오기
 페이징을 위한 Criteria(기준) 클래스 생성
-controller+ service test
+domain- Criteria
+BoardMapper paging 인터페이스,xml 추가
+페이징 테스트
+boardService, BoardController 수정 controller test
+
 
 14.페이징 화면처리
-pageDTO , 페이징 화면 
+pageDTO
+시작페이지, 마지막페이지, 앞,뒤, 합, cri
+
+controller
+
+페이징 화면
+페이지번호 이벤트처리
+게시글 클릭 후 목록시 리스트 고정 바꾸기
+조회페이지에서 다시 목록 페이지로 이동-페이지번호 유지
+
+318 시작
 
 15. 검색 처리
 

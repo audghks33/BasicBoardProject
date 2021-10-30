@@ -3,12 +3,15 @@ package com.audghks33.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.audghks33.domain.BoardVO;
+import com.audghks33.domain.Criteria;
+import com.audghks33.domain.PageDTO;
 import com.audghks33.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -23,11 +26,12 @@ public class BoardController {
 	private BoardService service;
 	
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list(Model model, Criteria cri) {
 		
 		log.info("list");
 		
-		model.addAttribute("list", service.getList());
+		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, 123));
 	}
 	// 해당 페이지를 열어야하므로 getMapping 추가
 	@GetMapping("/register")
@@ -48,7 +52,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/get")
-	public void get(@RequestParam("bno") Long bno, Model model) {
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri")Criteria cri ,Model model ) {
 		
 		log.info("/get");
 		
@@ -56,7 +60,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public void modify(@RequestParam("bno") Long bno, Model model) {
+	public void modify(@RequestParam("bno") Long bno, Model model, @ModelAttribute("cri")Criteria cri ) {
 		
 		log.info("/get or modify");
 		

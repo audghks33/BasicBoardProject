@@ -37,7 +37,11 @@
 	<button type="submit" data-oper="modify" >수정</button>
 	<button type="submit" data-oper="remove">삭제</button>
 	<button type="submit" data-oper="list">목록</button>
+	
+	<input type='hidden'  name='pageNum' value='<c:out value="${cri.pageNum}" /> '>
+	<input type='hidden'  name='amount' value='<c:out value="${cri.amount}" /> '>
 </form>
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -53,7 +57,14 @@
 				formObj.attr("action","/board/remove")
 			}else if(operation === 'list'){
 				formObj.attr("action","/board/list").attr("method","get");
+				var pageNumTag = $("input[name='pageNum']").clone();
+				var amountTag = $("input[name='amount']").clone();
+				
 				formObj.empty();
+			      
+			    formObj.append(pageNumTag);
+			    formObj.append(amountTag);
+			 	    
 			}
 			formObj.submit();
 		});

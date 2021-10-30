@@ -1,6 +1,7 @@
 package com.audghks33.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.audghks33.domain.BoardVO;
+import com.audghks33.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -44,7 +46,8 @@ public class BoardServiceTests {
 	@Test
 	public void testGetList() {
 		
-		service.getList().forEach(board -> log.info(board));
+		/* service.getList().forEach(board -> log.info(board)); */
+		service.getList(new Criteria(1, 10)).forEach(board -> log.info(board));
 	}
 	
 	@Test
